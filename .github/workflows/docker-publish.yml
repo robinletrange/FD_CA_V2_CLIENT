@@ -7,7 +7,7 @@ name: Docker
 
 on:
   schedule:
-    - cron: '22 10 * * *'
+    - cron: '30 7 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
@@ -27,7 +27,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       packages: write
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
@@ -36,18 +36,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Increment version
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          git fetch --tags
-          LAST=$(git tag --sort=-v:refname | grep '^v[0-9]*\.[0-9]*\.[0-9]*$' | head -1)
-          if [ -z "$LAST" ]; then VERSION="1.0.0"; else VERSION="${LAST#v}"; IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"; VERSION="$MAJOR.$MINOR.$((PATCH+1))"; fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag "v$VERSION"
-          git push origin "v$VERSION"
-          
+
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign

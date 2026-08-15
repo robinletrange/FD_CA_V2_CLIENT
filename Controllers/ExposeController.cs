@@ -1,17 +1,19 @@
-using System.Xml;
-
 namespace CLIENT.Controllers;
 
 [ApiController]
 [Route("expose")]
 public class ExposeController : ControllerBase
 {
-    [HttpGet()]
+    [HttpGet]
     public IActionResult Get()
     {
         return Ok(new
         {
-            serialNumber = AppInfo.SerialNumber
+            type = "CLIENT",
+            serialNumber = AppInfo.SerialNumber,
+            name = "CLIENT",
+            version = "1.0.0",
+            hostname = Environment.MachineName
         });
     }
 }

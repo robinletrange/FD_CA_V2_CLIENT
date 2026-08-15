@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "dgSpecHash": "UmkcqPQNC3U=",
+  "success": true,
+  "projectFilePath": "V:\\FranciumDigital\\CA\\CLIENT\\CLIENT.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\desbo\\.nuget\\packages\\dotnetenv\\3.2.0\\dotnetenv.3.2.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.10\\microsoft.aspnetcore.openapi.10.0.10.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.0\\microsoft.entityframeworkcore.analyzers.9.0.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\9.0.0\\microsoft.entityframeworkcore.relational.9.0.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\mysqlconnector\\2.4.0\\mysqlconnector.2.4.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\9.0.0\\pomelo.entityframeworkcore.mysql.9.0.0.nupkg.sha512",
+    "C:\\Users\\desbo\\.nuget\\packages\\superpower\\3.0.0\\superpower.3.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "Le package 'Microsoft.OpenApi' 2.0.0 présente une vulnérabilité de gravité élevé(e) connue, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc.",
+      "projectPath": "V:\\FranciumDigital\\CA\\CLIENT\\CLIENT.csproj",
+      "warningLevel": 1,
+      "filePath": "V:\\FranciumDigital\\CA\\CLIENT\\CLIENT.csproj",
+      "libraryId": "Microsoft.OpenApi",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

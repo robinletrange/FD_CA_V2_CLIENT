@@ -9,9 +9,8 @@ public class ExposeController : ControllerBase
     {
         return Ok(new
         {
-            type = "CLIENT",
+            type = "FD_CA_V2_CLIENT",
             serialNumber = AppInfo.SerialNumber,
-            name = "CLIENT",
             version = "1.0.0",
             hostname = Environment.MachineName
         });

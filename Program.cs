@@ -95,6 +95,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("API");
 
+app.UseWebSockets();
+
 app.MapControllers();
 
 app.Run();

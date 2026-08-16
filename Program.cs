@@ -10,6 +10,7 @@ global using DotNetEnv;
 global using CLIENT.Models;
 global using CLIENT.Services;
 global using CLIENT.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 // Charger le .env s'il existe
 Env.Load();
@@ -85,6 +86,9 @@ builder.Services.AddSingleton<IDoorRepository>(sp =>
 
     return new JsonDoorRepository(path);
 });
+
+builder.Services.AddSingleton<CLIENT.Services.WebSocketManager>();
+builder.Services.AddHostedService<DoorSimulationService>();
 
 builder.Services.AddControllers();
 

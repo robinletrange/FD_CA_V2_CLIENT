@@ -8,6 +8,8 @@ global using Microsoft.EntityFrameworkCore;
 global using DotNetEnv;
 
 global using CLIENT.Models;
+global using CLIENT.Services;
+global using CLIENT.Controllers;
 
 // Charger le .env s'il existe
 Env.Load();

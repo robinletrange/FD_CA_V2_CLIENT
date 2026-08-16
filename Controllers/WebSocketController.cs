@@ -1,5 +1,4 @@
 using System.Net.WebSockets;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CLIENT.Controllers;
@@ -8,12 +7,11 @@ namespace CLIENT.Controllers;
 [Route("ws")]
 public class WebSocketController : ControllerBase
 {
-    private readonly ILogger<WebSocketController> _logger;
+    private readonly Services.WebSocketManager _manager;
 
-    public WebSocketController(
-        ILogger<WebSocketController> logger)
+    public WebSocketController(Services.WebSocketManager manager)
     {
-        _logger = logger;
+        _manager = manager;
     }
 
     [HttpGet]
@@ -21,52 +19,29 @@ public class WebSocketController : ControllerBase
     {
         if (!HttpContext.WebSockets.IsWebSocketRequest)
         {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await HttpContext.Response.WriteAsync("WebSocket connection required.", cancellationToken);
+            HttpContext.Response.StatusCode = 400;
             return;
         }
 
-        using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+        using var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
 
-        _logger.LogInformation("Connexion WebSocket établie.");
-
-        var buffer = new byte[4096];
+        _manager.Add(socket);
 
         try
         {
-            while (webSocket.State == WebSocketState.Open && !cancellationToken.IsCancellationRequested)
+            var buffer = new byte[4096];
+
+            while (socket.State == WebSocketState.Open && !cancellationToken.IsCancellationRequested)
             {
-                var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
+                var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
 
                 if (result.MessageType == WebSocketMessageType.Close)
-                {
-                    _logger.LogInformation("Fermeture de la connexion WebSocket.");
-
-                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Fermeture demandée", cancellationToken);
-
                     break;
-                }
-
-                if (result.MessageType == WebSocketMessageType.Text)
-                {
-                    var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-
-                    _logger.LogInformation("Message reçu : {Message}", message);
-
-                    // Réponse temporaire
-                    var response = Encoding.UTF8.GetBytes("{\"type\":\"status\",\"online\":true}");
-
-                    await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, cancellationToken);
-                }
             }
         }
-        catch (OperationCanceledException)
+        finally
         {
-            _logger.LogInformation("Connexion WebSocket annulée.");
-        }
-        catch (WebSocketException ex)
-        {
-            _logger.LogWarning(ex, "Connexion WebSocket interrompue.");
+            _manager.Remove(socket);
         }
     }
 }

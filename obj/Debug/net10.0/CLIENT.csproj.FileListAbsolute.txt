@@ -39,3 +39,4 @@ V:\FranciumDigital\CA\CLIENT\obj\Debug\net10.0\CLIENT.pdb
 V:\FranciumDigital\CA\CLIENT\obj\Debug\net10.0\CLIENT.genruntimeconfig.cache
 V:\FranciumDigital\CA\CLIENT\obj\Debug\net10.0\ref\CLIENT.dll
 V:\FranciumDigital\CA\CLIENT\bin\Debug\net10.0\Data\doors.json
+V:\FranciumDigital\CA\CLIENT\obj\Debug\net10.0\CLIENT.sourcelink.json

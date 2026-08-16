@@ -1,14 +1,14 @@
 {
-  "doors": [
+  "Doors": [
     {
-      "id": 1,
-      "enabled": true,
-      "state": 1
+      "Id": 1,
+      "Enabled": false,
+      "State": 1
     },
     {
-      "id": 2,
-      "enabled": true,
-      "state": 0
+      "Id": 2,
+      "Enabled": false,
+      "State": 0
     }
   ]
 }

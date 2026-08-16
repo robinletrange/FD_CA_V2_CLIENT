@@ -4,13 +4,15 @@ namespace CLIENT.Services;
 
 public class DoorSimulationService : BackgroundService
 {
+    private readonly IDoorRepository _repository;
     private readonly WebSocketManager _manager;
     private readonly ILogger<DoorSimulationService> _logger;
 
     private readonly Random _random = new();
 
-    public DoorSimulationService(WebSocketManager manager, ILogger<DoorSimulationService> logger)
+    public DoorSimulationService(IDoorRepository repository, WebSocketManager manager, ILogger<DoorSimulationService> logger)
     {
+        _repository = repository;
         _manager = manager;
         _logger = logger;
     }
@@ -19,27 +21,43 @@ public class DoorSimulationService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            await Task.Delay(_random.Next(3000, 10000), stoppingToken);
+            await Task.Delay(_random.Next(1000, 5000), stoppingToken);
 
-            var isOpen = _random.Next(2) == 1;
+            int doorId = _random.Next(2) + 1;
 
-            var message = new
+            Dictionary<int, Door> doors = (await _repository.GetAllAsync()).ToDictionary(d => d.Id);
+
+            if (doors.TryGetValue(doorId, out Door? door) && door != null)
             {
-                type = "door_state",
-                door = new
+                int newState;
+
+                if (door.State == 1)
                 {
-                    id = "DOOR-001",
-                    name = "Porte principale",
-                    state = isOpen ? "open" : "closed",
-                    timestamp = DateTime.UtcNow
+                    // Si elle est ouverte → fermeture obligatoire
+                    newState = 0;
                 }
-            };
+                else
+                {
+                    // Si elle est fermée → ouverture aléatoire
+                    newState = _random.Next(2);
+                }
 
-            var json = JsonSerializer.Serialize(message);
+                door.State = newState;
 
-            _logger.LogInformation("Porte {State}", isOpen ? "OUVERTE" : "FERMÉE");
+                await _repository.UpdateAsync(door);
 
-            await _manager.BroadcastAsync(json, stoppingToken);
+                var message = new
+                {
+                    type = "door",
+                    data = door
+                };
+
+                var json = JsonSerializer.Serialize(message);
+
+                _logger.LogInformation($"Porte {door.Id} {(door.State == 1 ? "OUVERTE" : "FERMÉE")}");
+
+                await _manager.BroadcastAsync(json, stoppingToken);
+            }
         }
     }
 }

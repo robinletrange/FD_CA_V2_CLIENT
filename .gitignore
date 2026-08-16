@@ -1,0 +1,53 @@
+# Build outputs
+[Bb]in/
+[Oo]bj/
+out/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+
+# Rider / JetBrains
+.idea/
+*.iml
+
+# ASP.NET Core
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+.env
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+logs/
+
+# Test results
+TestResults/
+coverage*
+*.coverage
+*.coveragexml
+
+# OS generated files
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Publish output
+publish/
+
+# Temporary files
+*.tmp
+*.temp

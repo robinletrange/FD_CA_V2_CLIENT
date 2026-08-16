@@ -11,7 +11,7 @@ public class ExposeController : ControllerBase
         {
             type = "FD_CA_V2_CLIENT",
             serialNumber = AppInfo.SerialNumber,
-            version = "1.0.2",
+            version = "1.0.5",
             hostname = Environment.MachineName
         });
     }

@@ -34,8 +34,13 @@ public class DoorController : ControllerBase
         if (id != door.Id)
             return BadRequest();
 
+        var existingDoor = await _repository.GetByIdAsync(id);
+
+        if (existingDoor == null)
+            return NotFound();
+
         await _repository.UpdateAsync(door);
 
-        return Ok();
+        return Ok(door);
     }
 }

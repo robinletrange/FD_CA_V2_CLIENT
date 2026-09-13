@@ -135,7 +135,7 @@ public class DoorSimulationService : BackgroundService
             // DEMANDE D'AUTORISATION
             // =========================================================
 
-            string url = $"{AccessApiUrl}/doors/access" + $"?credentialValue={Uri.EscapeDataString(credentialValue)}" + $"&doorId={doorId}";
+            string url = $"{AccessApiUrl}/doors/access?identifierValue={Uri.EscapeDataString(credentialValue)}&doorId={doorId}";
 
             try
             {

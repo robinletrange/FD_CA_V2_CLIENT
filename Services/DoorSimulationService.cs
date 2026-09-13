@@ -15,18 +15,19 @@ public class DoorSimulationService : BackgroundService
     // API d'autorisation
     private const string AccessApiUrl = "http://192.168.1.201:8223";
 
-    // Fichier CSV des credentials
-    private const string CredentialsFilePath = "/Data/credentials.csv";
-
     // Liste des UID RFID
     private readonly List<string> _credentials = new();
 
-    public DoorSimulationService(IDoorRepository repository, WebSocketManager manager, ILogger<DoorSimulationService> logger, HttpClient httpClient)
+    private readonly string _credentialsFilePath;
+
+    public DoorSimulationService(IDoorRepository repository, WebSocketManager manager, ILogger<DoorSimulationService> logger, HttpClient httpClient, IHostEnvironment environment)
     {
         _repository = repository;
         _manager = manager;
         _logger = logger;
         _httpClient = httpClient;
+
+        _credentialsFilePath = Path.Combine(environment.ContentRootPath, "Data", "credentials.csv");
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -37,14 +38,14 @@ public class DoorSimulationService : BackgroundService
 
         try
         {
-            if (!File.Exists(CredentialsFilePath))
+            if (!File.Exists(_credentialsFilePath))
             {
-                _logger.LogError($"Fichier des credentials introuvable : {CredentialsFilePath}");
+                _logger.LogError($"Fichier des credentials introuvable : {_credentialsFilePath}");
 
                 return;
             }
 
-            foreach (string line in File.ReadLines(CredentialsFilePath))
+            foreach (string line in File.ReadLines(_credentialsFilePath))
             {
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
@@ -63,7 +64,7 @@ public class DoorSimulationService : BackgroundService
                 }
             }
 
-            _logger.LogInformation($"{_credentials.Count} credentials RFID chargés depuis {CredentialsFilePath}");
+            _logger.LogInformation($"{_credentials.Count} credentials RFID chargés depuis {_credentialsFilePath}");
         }
         catch (Exception ex)
         {

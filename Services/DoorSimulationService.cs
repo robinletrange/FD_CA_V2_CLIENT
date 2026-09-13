@@ -160,7 +160,32 @@ public class DoorSimulationService : BackgroundService
 
                 if (accessResponse?.Data?.Authorized != true)
                 {
-                    _logger.LogWarning($"Accès REFUSÉ : badge {credentialValue}, " + $"porte {doorId}");
+                    _logger.LogWarning($"Accès REFUSÉ : badge {credentialValue}, porte {doorId}");
+
+                    var logData2 = new
+                    {
+                        data = new
+                        {
+                            type = "BADGE",
+                            value = credentialValue,
+                            door = doorId == 14000000 ? "LMNO_1556_01" : "LMNO_1556_02",
+                            message = "Acces refuse",
+                            allowed = "FALSE"
+                        },
+                        level = "WARNING"
+                    };
+
+                    string logJson2 = JsonSerializer.Serialize(logData2);
+
+                    using var content2 = new StringContent(logJson2, Encoding.UTF8, "application/json");
+
+                    using HttpResponseMessage logResponse2 = await _httpClient.PostAsync($"{AccessApiUrl}/logs/PLC", content2, stoppingToken);
+
+                    if (!logResponse2.IsSuccessStatusCode)
+                    {
+                        _logger.LogWarning($"Erreur envoi log refus : HTTP {(int)logResponse2.StatusCode}");
+                    }
+
                     continue;
                 }
 

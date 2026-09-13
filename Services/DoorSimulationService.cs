@@ -116,7 +116,7 @@ public class DoorSimulationService : BackgroundService
 
                 using var content = new StringContent(logJson, Encoding.UTF8, "application/json");
 
-                using HttpResponseMessage logResponse = await _httpClient.PostAsync($"{AccessApiUrl}/logs/READER", content, stoppingToken);
+                using HttpResponseMessage logResponse = await _httpClient.PostAsync($"{AccessApiUrl}/logs/PLC", content, stoppingToken);
 
                 if (!logResponse.IsSuccessStatusCode)
                 {

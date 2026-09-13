@@ -143,24 +143,19 @@ public class DoorSimulationService : BackgroundService
 
                 using HttpResponseMessage response = await _httpClient.GetAsync(url, stoppingToken);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    _logger.LogWarning($"API autorisation : HTTP {(int)response.StatusCode}");
-
-                    continue;
-                }
-
                 string responseContent = await response.Content.ReadAsStringAsync(stoppingToken);
+
+                _logger.LogInformation($"API autorisation : HTTP {(int)response.StatusCode}");
 
                 var accessResponse = JsonSerializer.Deserialize<AccessResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                // =====================================================
-                // ACCÈS REFUSÉ
-                // =====================================================
-
                 if (accessResponse?.Data?.Authorized != true)
                 {
-                    _logger.LogWarning($"Accès REFUSÉ : badge {credentialValue}, porte {doorId}");
+                    _logger.LogWarning($"Accès REFUSÉ : badge {credentialValue}, porte {doorId} " + $"(HTTP {(int)response.StatusCode})");
+
+                    // =====================================================
+                    // ACCÈS REFUSÉ
+                    // =====================================================
 
                     var logData2 = new
                     {
@@ -172,7 +167,7 @@ public class DoorSimulationService : BackgroundService
                             message = "Acces refuse",
                             allowed = "FALSE"
                         },
-                        level = "WARNING"
+                        level = "ERROR"
                     };
 
                     string logJson2 = JsonSerializer.Serialize(logData2);
@@ -183,7 +178,13 @@ public class DoorSimulationService : BackgroundService
 
                     if (!logResponse2.IsSuccessStatusCode)
                     {
-                        _logger.LogWarning($"Erreur envoi log refus : HTTP {(int)logResponse2.StatusCode}");
+                        string error2 = await logResponse2.Content.ReadAsStringAsync(stoppingToken);
+
+                        _logger.LogWarning($"Erreur envoi log refus : HTTP {(int)logResponse2.StatusCode} - {error2}");
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Log REFUS envoyé pour le badge {credentialValue}");
                     }
 
                     continue;
@@ -220,11 +221,13 @@ public class DoorSimulationService : BackgroundService
 
                 if (!logResponse.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning($"Erreur envoi log : HTTP " + $"{(int)logResponse.StatusCode}");
+                    string error = await logResponse.Content.ReadAsStringAsync(stoppingToken);
+
+                    _logger.LogWarning($"Erreur envoi log : HTTP {(int)logResponse.StatusCode} - {error}");
                 }
                 else
                 {
-                    _logger.LogInformation($"Log envoyé pour le badge {credentialValue}");
+                    _logger.LogInformation($"Log AUTORISÉ envoyé pour le badge {credentialValue}");
                 }
 
                 // =========================================================

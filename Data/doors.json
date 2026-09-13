@@ -3,12 +3,12 @@
     {
       "Id": 1,
       "Enabled": false,
-      "State": 0
+      "State": 1
     },
     {
       "Id": 2,
       "Enabled": false,
-      "State": 0
+      "State": 1
     }
   ]
 }

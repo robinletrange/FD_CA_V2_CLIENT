@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UmkcqPQNC3U=",
+  "dgSpecHash": "HMITWQCBdbQ=",
   "success": true,
-  "projectFilePath": "V:\\FranciumDigital\\CA\\CLIENT\\CLIENT.csproj",
+  "projectFilePath": "C:\\Users\\desbo\\Documents\\CA\\FD_CA_V2_CLIENT\\CLIENT.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\desbo\\.nuget\\packages\\dotnetenv\\3.2.0\\dotnetenv.3.2.0.nupkg.sha512",
     "C:\\Users\\desbo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.10\\microsoft.aspnetcore.openapi.10.0.10.nupkg.sha512",
@@ -19,10 +19,10 @@
     {
       "code": "NU1903",
       "level": "Warning",
-      "message": "Le package 'Microsoft.OpenApi' 2.0.0 présente une vulnérabilité de gravité élevé(e) connue, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc.",
-      "projectPath": "V:\\FranciumDigital\\CA\\CLIENT\\CLIENT.csproj",
+      "message": "Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
+      "projectPath": "C:\\Users\\desbo\\Documents\\CA\\FD_CA_V2_CLIENT\\CLIENT.csproj",
       "warningLevel": 1,
-      "filePath": "V:\\FranciumDigital\\CA\\CLIENT\\CLIENT.csproj",
+      "filePath": "C:\\Users\\desbo\\Documents\\CA\\FD_CA_V2_CLIENT\\CLIENT.csproj",
       "libraryId": "Microsoft.OpenApi",
       "targetGraphs": [
         "net10.0"
